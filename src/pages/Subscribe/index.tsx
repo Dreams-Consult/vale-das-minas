@@ -8,6 +8,7 @@ import { object, string, ValidationError } from 'yup';
 import morfologiaBottom from '../../assets/morfologia-mobile.png'
 import { useMediaQuery } from 'react-responsive'
 import { Select } from '../../components/Select/index'
+import { useNavigate } from 'react-router'
 
 type FormProps = {
   nome: string
@@ -37,16 +38,6 @@ type MyObjectSelectType = {
   [key: number]: { label: string; name: string, placeholder: string, options: string[] };
 };
 
-// const formSchema = object({
-//   nome: string().default('').required("Preencha seu nome corretamente.").matches(/^[A-Za-zÀ-ÿ\s]+$/, "O nome deve conter apenas letras."),
-//   telefone: string().default('').required("Preencha seu telefone corretamente."),
-//   email: string().default('').email("E-mail precisa ser válido.").required("Preencha seu e-mail corretamente."),
-//   profissao: string().default(''),
-//   veiculo: string().default(''),
-//   estado: string().default(''),
-//   renda: string().default(''),
-// });
-
 const formSchema = object({
   nome: string()
     .default('')
@@ -70,6 +61,7 @@ const formSchema = object({
 });
 
 export function Subscribe() {
+  const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: `(min-width: 1140px)` });
   const [erros, setErros] = useState<FormErrors>({})
   const [step, setStep] = useState(0);
@@ -140,7 +132,7 @@ export function Subscribe() {
 
     function sendForm() {
     console.log(form)
-    const response = fetch("https://n8n.fehshop.com/webhook/pag-nova", {
+    fetch("https://n8n.fehshop.com/webhook/pag-nova", {
       method: "POST",
       body: JSON.stringify(form),
       headers: { "Content-Type": "application/json" },
@@ -148,7 +140,7 @@ export function Subscribe() {
 
     alert("Cadastro realizado com sucesso!")
 
-    return response;
+    navigate('/')
   }
 
   const FormSteps: MyObjectFormType = {
