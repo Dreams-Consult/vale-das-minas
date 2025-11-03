@@ -130,17 +130,20 @@ export function Subscribe() {
   });
   }
 
-    function sendForm() {
-    console.log(form)
-    fetch("https://n8n.fehshop.com/webhook/pag-nova", {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: { "Content-Type": "application/json" },
-    });
+    async function sendForm() {
+    try {
+      await fetch("https://n8n.fehshop.com/webhook/pag-nova", {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    alert("Cadastro realizado com sucesso!")
-
-    navigate('/')
+      alert("Cadastro realizado com sucesso!")
+      navigate('/')
+    } catch (error) {
+      console.error("Erro ao enviar formulário:", error)
+      alert("Erro ao realizar cadastro. Tente novamente.")
+    }
   }
 
   const FormSteps: MyObjectFormType = {
