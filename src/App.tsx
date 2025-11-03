@@ -8,16 +8,14 @@ import { NotFound } from './pages/NotFound';
 function App() {
 
   return (
-    <>
-        <NavBar />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" Component={Home} />
-            <Route path="/cadastro" Component={Subscribe} />
-            <Route path="*" Component={NotFound} />
-          </Routes>
-        </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" Component={Home} />
+        <Route path="/cadastro" Component={Subscribe} />
+        <Route path="*" Component={NotFound} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
