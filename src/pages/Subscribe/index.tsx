@@ -138,8 +138,7 @@ export function Subscribe() {
         headers: { "Content-Type": "application/json" },
       });
 
-      alert("Cadastro realizado com sucesso!")
-      navigate('/')
+      navigate('/obrigado');
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
       alert("Erro ao realizar cadastro. Tente novamente.")

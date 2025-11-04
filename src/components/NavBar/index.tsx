@@ -11,15 +11,14 @@ export function NavBar() {
   return (
     <div className='NavBar'>
       <div className='LeftBar'>
-        <img className='logo' src={LogoValeDasMinas} alt="vale-das-minas-logo" />
+        <a href='/'>
+          <img className='logo' src={LogoValeDasMinas} alt="vale-das-minas-logo" />
+        </a>
       </div>
       <div className='RightBar'>
         {
           isMobile && (
             <>
-              {/* <a href='https://wa.me/5591982540124?text=Oi%20Vale%20das%20Minas!%20Quero%20saber%20mais%20sobre%20o%20parque!' target='_blank'>
-                <img src={whatsappIcon} alt="whatsapp-icon" width={30}/>
-              </a> */}
               <a href='https://www.instagram.com/valedasminaspark/' target='_blank'>
                 <img src={InstagramIcon} alt="instagram-icon" width={30} />
               </a>

@@ -1,0 +1,169 @@
+.thank-you {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-image: url('../../assets/render-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.banner-thank-you {
+  display: flex;
+}
+
+.content-thank-you {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-thank-you {
+  display: flex;
+  padding: 20px 50px;
+  flex-direction: column;
+  text-align: center;
+  color: #16455D;
+  gap: 25px;
+  align-items: center;
+}
+
+.success-icon {
+  animation: scaleIn 0.6s ease;
+  margin-bottom: 20px;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.biggest-thank-you {
+  font-weight: 800;
+  font-size: 2.2em;
+  background: linear-gradient(to right, #C0390B, #E76B00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.smallest-thank-you {
+  font-weight: 500;
+  font-size: 1.3em;
+  max-width: 700px;
+}
+
+.medium-thank-you {
+  font-weight: 400;
+  font-size: 1.1em;
+  color: #16455D;
+  opacity: 0.9;
+  max-width: 600px;
+}
+
+@media screen and (min-width: 1340px){
+  .text-thank-you {
+    min-width: 800px;
+  }
+}
+
+@media screen and (max-width: 720px){
+  .biggest-thank-you {
+    font-size: 1.6em;
+  }
+
+  .smallest-thank-you {
+    font-size: 1em;
+  }
+
+  .medium-thank-you {
+    font-size: 0.9em;
+  }
+
+  .success-icon svg {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media screen and (max-width: 325px){
+  .biggest-thank-you {
+    font-size: 1.4em;
+  }
+
+  .smallest-thank-you {
+    font-size: 0.9em;
+  }
+
+  .medium-thank-you {
+    font-size: 0.8em;
+  }
+
+  .success-icon svg {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.copy-thank-you {
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.div-button-thank-you {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 10px;
+  align-items: center;
+}
+
+.morfologia-thank-you {
+  width: 17em;
+}
+
+.morfologia-left-thank-you {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.morfologia-right-thank-you {
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.morfologia-bottom-thank-you {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.rodape-banner-thank-you {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
