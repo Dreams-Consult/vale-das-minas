@@ -117,7 +117,8 @@ export function Subscribe() {
           veiculo: "",
           profissao: "",
         })
-        sendForm()
+        // sendForm()
+        alert("Cadastro em ambiente de testes, o formulário não será enviado.")
     })
     .catch((error: ValidationError) => {
     const newErrors: Record<string, string> = {};
