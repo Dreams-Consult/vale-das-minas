@@ -6,6 +6,7 @@
   font-style: normal;
   color: #16455D;
   gap: 5px;
+  font-size: 1.1em;
 }
 
 input {
@@ -15,6 +16,7 @@ input {
   background-color: #feedd1;
   color: #16455d;
   outline: none;
+  font-size: 1em;
 }
 
 input::placeholder {
