@@ -1,0 +1,43 @@
+.selectField {
+  display: flex;
+  flex-direction: column;
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #16455D;
+  gap: 5px;
+}
+
+select {
+  padding: 1em;
+  border-radius: 8px;
+  border: 2px solid #f7dfb9;
+  background-color: #feedd1;
+  color: #16455d;
+  outline: none;
+  cursor: pointer;
+  font-family: "Schibsted Grotesk", sans-serif;
+  min-height: 3.3em;
+  box-sizing: border-box;
+}
+
+select option {
+  background-color: #feedd1;
+  color: #16455d;
+}
+
+select option[value=""] {
+  color: #aaaa91;
+  font-style: italic;
+  font-weight: bold;
+}
+
+select:focus {
+  border-color: #efc683;
+}
+
+.selectField .error {
+  color: red;
+  margin-bottom: 0px;
+  font-size: 0.9em;
+}
