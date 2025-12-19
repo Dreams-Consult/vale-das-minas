@@ -48,6 +48,37 @@
   gap: 30px;
 }
 
+.progress-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: rgba(22, 69, 93, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(to right, #C0390B, #E76B00);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 .morfologia-subscribe {
   width: 100%;
 }

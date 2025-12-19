@@ -132,13 +132,21 @@ export function Subscribe() {
 
     async function sendForm() {
     try {
-      await fetch("https://n8n.fehshop.com/webhook/pag-nova", {
+      const response1 = fetch("https://n8n.fehshop.com/webhook/pag-nova", {
         method: "POST",
         body: JSON.stringify(form),
         headers: { "Content-Type": "application/json" },
       });
 
-      navigate('/obrigado');
+      const response2 = fetch("https://n8n.fehshop.com/webhook/nova-pag", {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      await Promise.all([response1, response2]);
+
+      navigate('/obrigado', { state: { fromSubscribe: true } });
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
       alert("Erro ao realizar cadastro. Tente novamente.")
@@ -212,6 +220,9 @@ export function Subscribe() {
     }
   }
 
+  const totalSteps = 7;
+  const progress = Math.round(((step + 1) / totalSteps) * 100);
+
   return (
         <div className='subscribe'>
           <div className='form'>
@@ -278,6 +289,10 @@ export function Subscribe() {
           </div>
         )
       }
+      <div className='progress-container'>
+        <div className='progress-bar' style={{ width: `${progress}%` }}></div>
+        <div className='progress-text'>{progress}% concluído</div>
+      </div>
         </div>
   )
 }
