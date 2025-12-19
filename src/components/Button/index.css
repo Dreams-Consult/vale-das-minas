@@ -1,6 +1,7 @@
 button {
   margin-top: 30px;
-  width: 200px;
+  min-width: 200px;
+  width: auto;
   height: 45px;
   background: linear-gradient(to right, #C0390B, #E76B00);
   color: #fff;
@@ -12,6 +13,7 @@ button {
   cursor: pointer;
   font-size: 1.2em;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
 }
 
 button:hover {
@@ -21,16 +23,18 @@ button:hover {
 
 @media screen and (max-width: 720px){
   button {
-    width: 150px;
+    min-width: 150px;
     height: 35px;
     font-size: 0.8em;
+    padding: 10px 20px;
   }
 }
 
 @media screen and (max-width: 325px){
   button {
-    width: 120px;
+    min-width: 120px;
     height: 30px;
     font-size: 0.5em;
+    padding: 10px 15px;
   }
 }

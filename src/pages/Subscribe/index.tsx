@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { object, string, number, ValidationError } from 'yup';
 import morfologiaBottom from '../../assets/morfologia-mobile.png'
 import { useMediaQuery } from 'react-responsive'
+import { useNavigate } from 'react-router'
 
 type FormProps = {
   nome: string
@@ -39,6 +40,7 @@ const formSchema = object({
 
 export function Subscribe() {
   const isMobile = useMediaQuery({ query: `(min-width: 1140px)` });
+  const navigate = useNavigate()
   const [erros, setErros] = useState<FormErrors>({})
   const [form, setForm] = useState<FormProps>({
     nome: "",
@@ -63,15 +65,24 @@ export function Subscribe() {
   }
 
   function sendForm() {
-    const response = fetch("https://n8n.fehshop.com/webhook/pag-nova", {
+    const response1 = fetch("https://n8n.fehshop.com/webhook/pag-nova", {
       method: "POST",
       body: JSON.stringify(form),
       headers: { "Content-Type": "application/json" },
     });
 
-    alert("Cadastro realizado com sucesso!")
+    const response2 = fetch("https://n8n.fehshop.com/webhook/nova-pag", {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: { "Content-Type": "application/json" },
+    });
 
-    return response;
+    Promise.all([response1, response2]).then(() => {
+      alert("Cadastro realizado com sucesso!")
+      navigate('/')
+    });
+
+    navigate('/obrigado')
   }
 
   function formatPhone(value: string): string {
