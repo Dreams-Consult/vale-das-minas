@@ -19,6 +19,13 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 @media screen and (max-width: 720px){
   .button {
     width: 150px;

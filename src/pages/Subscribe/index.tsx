@@ -3,7 +3,7 @@ import { Button } from '../../components/Button'
 import morfologia1 from '../../assets/morfologia-1.png'
 import morfologia2 from '../../assets/morfologia-2.png'
 import { TextField } from '../../components/TextField'
-import { useState } from 'react'
+import { useState, type KeyboardEvent } from 'react'
 import { object, string, ValidationError } from 'yup';
 import morfologiaBottom from '../../assets/morfologia-mobile.png'
 import { useMediaQuery } from 'react-responsive'
@@ -38,6 +38,21 @@ type MyObjectSelectType = {
   [key: number]: { label: string; name: string, placeholder: string, options: string[] };
 };
 
+const VALID_DDDS = new Set([
+  '11', '12', '13', '14', '15', '16', '17', '18', '19',
+  '21', '22', '24',
+  '27', '28',
+  '31', '32', '33', '34', '35', '37', '38',
+  '41', '42', '43', '44', '45', '46',
+  '47', '48', '49',
+  '51', '53', '54', '55',
+  '61', '62', '63', '64', '65', '66', '67',
+  '68', '69',
+  '71', '73', '74', '75', '77', '79',
+  '81', '82', '83', '84', '85', '86', '87', '88', '89',
+  '91', '92', '93', '94', '95', '96', '97', '98', '99',
+])
+
 const formSchema = object({
   nome: string()
     .default('')
@@ -47,7 +62,22 @@ const formSchema = object({
   telefone: string()
     .default('')
     .required("Preencha seu telefone corretamente.")
-    .matches(/^[0-9()+-\s]+$/, "O telefone deve conter apenas números."),
+    .matches(/^[0-9()+-\s]+$/, "O telefone deve conter apenas números.")
+    .test('telefone-digitos', 'Preencha seu telefone corretamente.', (value) => {
+      if (!value) return false
+
+      const digits = value.replace(/\D/g, '')
+      return digits.length === 10 || digits.length === 11
+    })
+    .test('telefone-ddd', 'DDD inválido. Informe um DDD brasileiro válido.', (value) => {
+      if (!value) return false
+
+      const digits = value.replace(/\D/g, '')
+      if (digits.length < 2) return false
+
+      const ddd = digits.slice(0, 2)
+      return VALID_DDDS.has(ddd)
+    }),
 
   email: string()
     .default('')
@@ -65,6 +95,7 @@ export function Subscribe() {
   const isMobile = useMediaQuery({ query: `(min-width: 1140px)` });
   const [erros, setErros] = useState<FormErrors>({})
   const [step, setStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [form, setForm] = useState<FormProps>({
     nome: "",
     profissao: "",
@@ -74,6 +105,18 @@ export function Subscribe() {
     estado: "",
     veiculo: "",
   })
+
+  function formatPhone(value: string) {
+    const digits = value.replace(/\D/g, '').slice(0, 11)
+
+    if (digits.length <= 2) return digits
+    if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
+    if (digits.length <= 10) {
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`
+    }
+
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
+  }
 
   function handleChangeStep() {
     formSchema
@@ -105,7 +148,23 @@ export function Subscribe() {
     })
   }
 
+  function handleEnterToContinue(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== 'Enter') return
+
+    event.preventDefault()
+
+    if (step === 6) {
+      if (isSubmitting) return
+      logon()
+      return
+    }
+
+    handleChangeStep()
+  }
+
   function logon() {
+    if (isSubmitting) return
+
     formSchema.validate( form, { abortEarly: false } )
     .then(() => {
         setErros({
@@ -117,6 +176,7 @@ export function Subscribe() {
           veiculo: "",
           profissao: "",
         })
+        setIsSubmitting(true)
         sendForm()
     })
     .catch((error: ValidationError) => {
@@ -150,6 +210,7 @@ export function Subscribe() {
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
       alert("Erro ao realizar cadastro. Tente novamente.")
+      setIsSubmitting(false)
     }
   }
 
@@ -239,6 +300,7 @@ export function Subscribe() {
                   name={FormSteps[step].name}
                   text={FormSteps[step].text?.toString() || ''}
                   placeholder={FormSteps[step].placeholder} errorMessage={FormSteps[step].erro}
+                  onKeyDown={handleEnterToContinue}
                   onChange={(e) =>
                     {
                       if (step == 0) {
@@ -250,7 +312,7 @@ export function Subscribe() {
                       else if (step == 1) {
                             setForm({
                           ...form,
-                          [FormSteps[step].name]: e.target.value.replace(/[^0-9()+-\s]/g, ""),
+                          [FormSteps[step].name]: formatPhone(e.target.value),
                         })
                       }
                       else {
@@ -272,7 +334,7 @@ export function Subscribe() {
               )
             }
           <div className='div-button-subscribe'>
-            <Button text={step == 6 ? 'CADASTRAR' : 'AVANÇAR'} onClick={step == 6 ? logon : handleChangeStep} />
+            <Button text={step == 6 && isSubmitting ? 'CADASTRANDO...' : step == 6 ? 'CADASTRAR' : 'AVANÇAR'} disabled={step == 6 && isSubmitting} onClick={step == 6 ? logon : handleChangeStep} />
           </div>
         </div>
         {
