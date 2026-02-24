@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { Subscribe } from './pages/Subscribe';
 import { NotFound } from './pages/NotFound';
 import { ThankYou } from './pages/ThankYou';
+import { Summary } from './pages/Summary';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" Component={Home} />
         <Route path="/cadastro" Component={Subscribe} />
+        <Route path="/cadastro/resumo" Component={Summary} />
         <Route path="/obrigado" Component={ThankYou} />
         <Route path="*" Component={NotFound} />
       </Routes>

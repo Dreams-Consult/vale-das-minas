@@ -8,7 +8,7 @@ import { object, string, ValidationError } from 'yup';
 import morfologiaBottom from '../../assets/morfologia-mobile.png'
 import { useMediaQuery } from 'react-responsive'
 import { Select } from '../../components/Select/index'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 type FormProps = {
   nome: string
@@ -92,10 +92,11 @@ const formSchema = object({
 
 export function Subscribe() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const locationState = location.state as { form?: FormProps } | null
   const isMobile = useMediaQuery({ query: `(min-width: 1140px)` });
   const [erros, setErros] = useState<FormErrors>({})
   const [step, setStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [form, setForm] = useState<FormProps>({
     nome: "",
     profissao: "",
@@ -104,6 +105,7 @@ export function Subscribe() {
     renda: "",
     estado: "",
     veiculo: "",
+    ...locationState?.form,
   })
 
   function formatPhone(value: string) {
@@ -154,17 +156,14 @@ export function Subscribe() {
     event.preventDefault()
 
     if (step === 6) {
-      if (isSubmitting) return
-      logon()
+      handleGoToSummary()
       return
     }
 
     handleChangeStep()
   }
 
-  function logon() {
-    if (isSubmitting) return
-
+  function handleGoToSummary() {
     formSchema.validate( form, { abortEarly: false } )
     .then(() => {
         setErros({
@@ -176,8 +175,7 @@ export function Subscribe() {
           veiculo: "",
           profissao: "",
         })
-        setIsSubmitting(true)
-        sendForm()
+        navigate('/cadastro/resumo', { state: { form } })
     })
     .catch((error: ValidationError) => {
     const newErrors: Record<string, string> = {};
@@ -188,30 +186,6 @@ export function Subscribe() {
 
     setErros(newErrors);
   });
-  }
-
-    async function sendForm() {
-    try {
-      const response1 = fetch("https://n8n.fehshop.com/webhook/pag-nova", {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const response2 = fetch("https://n8n.fehshop.com/webhook/nova-pag", {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      await Promise.all([response1, response2]);
-
-      navigate('/obrigado', { state: { fromSubscribe: true } });
-    } catch (error) {
-      console.error("Erro ao enviar formulário:", error)
-      alert("Erro ao realizar cadastro. Tente novamente.")
-      setIsSubmitting(false)
-    }
   }
 
   const FormSteps: MyObjectFormType = {
@@ -334,7 +308,7 @@ export function Subscribe() {
               )
             }
           <div className='div-button-subscribe'>
-            <Button text={step == 6 && isSubmitting ? 'CADASTRANDO...' : step == 6 ? 'CADASTRAR' : 'AVANÇAR'} disabled={step == 6 && isSubmitting} onClick={step == 6 ? logon : handleChangeStep} />
+            <Button text={step == 6 ? 'VER TERMO' : 'AVANÇAR'} onClick={step == 6 ? handleGoToSummary : handleChangeStep} />
           </div>
         </div>
         {

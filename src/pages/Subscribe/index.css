@@ -103,6 +103,29 @@
   align-items: center;
 }
 
+.div-button-subscribe .button {
+  white-space: nowrap;
+  width: 240px;
+  height: 52px;
+  margin-top: 0;
+}
+
+@media screen and (max-width: 720px){
+  .div-button-subscribe .button {
+    width: 210px;
+    height: 42px;
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 325px){
+  .div-button-subscribe .button {
+    width: 190px;
+    height: 38px;
+    font-size: 0.8em;
+  }
+}
+
 .error {
   color: red;
 }
